@@ -1,0 +1,195 @@
+# Practical Development Setup: Flutter, Python, MySQL, and VS Code Integration
+
+**Student Name:** James Bida  
+**Date:** 13 October 2026
+
+## 1. Introduction
+
+The purpose of this practical assignment was to set up a development environment using Flutter, Python, MySQL, and Visual Studio Code. The exercise helped me install development tools, create a Flutter application, configure a Python virtual environment, create a MySQL database, and prepare an integrated development environment.
+
+## 2. Flutter Setup
+
+### Installation and verification
+
+I installed the Flutter SDK and added its `bin` directory to the Windows PATH environment variable.
+
+Flutter version: 3.47.7  
+Dart version: 3.13.5
+
+I used the following commands:
+
+```powershell
+flutter --version
+flutter doctor
+flutter create my_first_app
+flutter devices
+```
+
+### Results
+
+- Flutter SDK installed successfully.
+- The Flutter project `my_first_app` was created successfully.
+- Windows desktop, Chrome, and Microsoft Edge were detected as available devices.
+- Flutter Doctor identified that the Android SDK and Visual Studio were missing. These are needed for Android development and Windows desktop development, respectively.
+
+### Hot Reload vs. Hot Restart
+
+**Hot Reload:** Applies supported code changes to a running Flutter application without restarting the application from the beginning. It usually preserves the current application state.
+
+**Hot Restart:** Restarts the Dart application and resets its state, while avoiding a complete rebuild of the development environment.
+
+**Screenshot 1:** Insert the screenshot showing the output of `flutter doctor`.
+
+**Screenshot 2:** Insert the screenshot showing `flutter create my_first_app` or `flutter devices`.
+
+## 3. MySQL Database Setup
+
+### Database and table creation
+
+I connected to the MySQL server using the MySQL command-line client and created a database named `school`.
+
+```sql
+CREATE DATABASE IF NOT EXISTS school;
+USE school;
+
+CREATE TABLE IF NOT EXISTS students (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    email VARCHAR(150) UNIQUE,
+    enrolled_on DATE
+);
+```
+
+The table contains four columns:
+
+- `id`: An automatically generated primary key.
+- `name`: Stores the student's name.
+- `email`: Stores the student's email address and prevents duplicate email values.
+- `enrolled_on`: Stores the student's enrollment date.
+
+### Inserting and retrieving records
+
+I inserted two student records and used a SELECT query to verify them.
+
+```sql
+INSERT INTO students (name, email, enrolled_on)
+VALUES
+('Alice Wanjiku', 'alice@example.com', '2026-10-01'),
+('Brian Otieno', 'brian@example.com', '2026-10-02');
+
+SELECT * FROM students;
+```
+
+The query returned two student records successfully.
+
+### Database security and least privilege
+
+I created a separate database user for the application and granted only the required permissions.
+
+```sql
+CREATE USER 'school_app'@'localhost'
+IDENTIFIED BY 'YOUR_UNIQUE_STRONG_PASSWORD';
+
+GRANT SELECT, INSERT, UPDATE
+ON school.students
+TO 'school_app'@'localhost';
+
+SHOW GRANTS FOR 'school_app'@'localhost';
+```
+
+The password shown here is a placeholder; the actual command used a password set during setup.
+
+Applications should not connect using the MySQL root account because root has extensive administrative privileges. Using a separate account with limited permissions reduces the risk of accidental changes and unauthorized access.
+
+**Screenshot 3:** Insert the screenshot showing `SELECT * FROM students;`.
+
+**Screenshot 4:** Insert the screenshot showing the grants for `school_app`.
+
+## 4. Python Environment Setup
+
+### Creating a project and virtual environment
+
+I created a project folder named `python_setup_lab` on my Desktop and created a Python virtual environment.
+
+```powershell
+mkdir python_setup_lab
+cd python_setup_lab
+python -m venv venv
+```
+
+I activated the virtual environment in PowerShell:
+
+```powershell
+Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+.\venv\Scripts\Activate.ps1
+```
+
+The terminal displayed `(venv)`, confirming that the virtual environment was active.
+
+### Installing and verifying a package
+
+I installed the `requests` library and verified the installed packages.
+
+```powershell
+python -m pip install requests
+python -m pip list
+```
+
+The installation completed successfully. The environment included `requests` and its dependencies: `certifi`, `charset-normalizer`, `idna`, and `urllib3`.
+
+I exported the package versions to a requirements file:
+
+```powershell
+python -m pip freeze > requirements.txt
+Get-Content requirements.txt
+```
+
+The `requirements.txt` file records the installed package versions so that the environment can be recreated later using:
+
+```powershell
+python -m pip install -r requirements.txt
+```
+
+**Screenshot 5:** Insert the screenshot showing the active `(venv)` environment and `pip list` output.
+
+**Screenshot 6:** Insert the screenshot showing the contents of `requirements.txt`.
+
+## 5. Visual Studio Code Integration
+
+I opened the `python_setup_lab` project in Visual Studio Code and installed the required development extensions:
+
+- Python
+- Pylance
+- Flutter
+- Dart
+- A MySQL database extension
+
+I selected the Python interpreter belonging to my virtual environment:
+
+```text
+C:\Users\ADMIN\Desktop\python_setup_lab\venv\Scripts\python.exe
+```
+
+Selecting the correct interpreter ensures that VS Code uses the packages installed in the project's virtual environment rather than an unrelated Python installation.
+
+**Screenshot 7:** Insert a screenshot of VS Code showing the installed extensions, the active `(venv)` terminal, and the selected Python interpreter.
+
+## 6. Challenges and Solutions
+
+### Flutter was not recognized
+
+Initially, PowerShell reported that `flutter` was not recognized. I resolved the issue by installing the Flutter SDK and adding its `bin` directory to the PATH environment variable.
+
+### MySQL command was not recognized
+
+The `mysql` command was not available directly in PowerShell. I used the full path to the MySQL command-line client to connect to the server.
+
+### Python activation and interpreter confusion
+
+I learned that PowerShell commands must be entered at the PowerShell prompt, while Python statements are entered at the `>>>` prompt. I also verified that the virtual environment was active before checking Python packages.
+
+## 7. Conclusion
+
+This practical assignment improved my understanding of software development environment setup. I installed and verified Flutter, created a Flutter application, configured Python and its virtual environment, installed dependencies, created a MySQL database and table, inserted and retrieved records, and configured Visual Studio Code.
+
+I also learned the importance of database security, dependency management, and choosing the correct development interpreter. These skills will help me prepare for future programming projects.
